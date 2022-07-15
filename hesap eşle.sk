@@ -1,0 +1,90 @@
+options:
+    token: TOKEN
+    bot: "TEST BOT"
+    viprol: 781860444788490251
+    vip+rol: 781860429823475712
+    mviprol: 781860400416817183
+    mvip+rol: 781860371484246017
+    oyuncurol: 781860460425248808
+    eslekanalid: 781856722495078401
+    p: &eEşle
+
+on load:
+    login to "{@token}" with the name {@bot}
+    mark {@bot} as playing "Hesap Eşleme Sistemi | VelEşle"
+
+command /hesap [<text>] [<text>]:
+    trigger:
+        if arg 1 is not set:
+            if arg 2 is not set:
+                send "{@p} &7Lütfen bir Arguman giriniz &c/hesap eşle"
+        if arg 1 is "eşle":
+            if arg 2 is not set:
+                if {dogruladi::%player%} is not set:
+                    set {_kod} to random string matching "!doğrula [A-Za-z0-9]{9}"
+                    set {velesle::kod::%{_kod}%} to player
+                    send "{@p} &7Hesabını Doğrulamak için Discorddaki hesap-eşle kanalına bu kodu gir."
+                    send "&7Doğrulama Kodu: &a%{_kod}%"
+                else:
+                    send "{@p} &7Discord Hesabını Zaten Doğrulamışsın Birdaha Doğrulayamassın"
+               
+
+on server message received seen by {@bot}:
+    if discord id of event-channel is "{@eslekanalid}":
+        delete event-message
+        if {velesle::kod::%event-message%} is set:
+            if group of {velesle::kod::%event-message%} is "default" or "oyuncu":
+                add role with id "{@oyuncurol}" to roles of event-user in event-guild
+                send "Hesabın Başarıyla Eşleştirildi %nl%Oyundaki Rolün: Oyuncu%nl%Oyundaki Adın: %{velesle::kod::%event-message%}%" to event-channel with {@bot} and store the message in {_var}
+                set {dogruladi::%{velesle::kod::%event-message%}%} to true
+                send "{@p} &7Hesabınız Başarıyla Eşleştirildi Discord İsminiz: %event-member%" to {velesle::kod::%event-message%}
+                set {velesle::kod::%event-message%} to {dogruladi::%{velesle::kod::%event-message%}%}
+                delete {dogruladi::%{velesle::kod::%event-message%}%}
+                wait 5 seconds
+                purge {_var} with {@bot}
+            if group of {velesle::kod::%event-message%} is "vip":
+                add role with id "{@viprol}" to roles of event-user in event-guild
+                send "Hesabın Başarıyla Eşleştirildi %nl%Oyundaki Rolün: VIP%nl%Oyundaki Adın: %{velesle::kod::%event-message%}%" to event-channel with {@bot} and store the message in {_var}
+                set {dogruladi::%{velesle::kod::%event-message%}%} to true
+                send "{@p} &7Hesabınız Başarıyla Eşleştirildi Discord İsminiz: %event-member%" to {velesle::kod::%event-message%}
+                set {velesle::kod::%event-message%} to {dogruladi::%{velesle::kod::%event-message%}%}
+                delete {dogruladi::%{velesle::kod::%event-message%}%}
+                wait 5 seconds
+                purge {_var} with {@bot}
+            if group of {velesle::kod::%event-message%} is "vip+":
+                add role with id "{@vip+rol}" to roles of event-user in event-guild
+                send "Hesabın Başarıyla Eşleştirildi %nl%Oyundaki Rolün: VIP+%nl%Oyundaki Adın: %{velesle::kod::%event-message%}%" to event-channel with {@bot} and store the message in {_var}
+                set {dogruladi::%{velesle::kod::%event-message%}%} to true
+                send "{@p} &7Hesabınız Başarıyla Eşleştirildi Discord İsminiz: %event-member%" to {velesle::kod::%event-message%}
+                set {velesle::kod::%event-message%} to {dogruladi::%{velesle::kod::%event-message%}%}
+                delete {dogruladi::%{velesle::kod::%event-message%}%}
+                wait 5 seconds
+                purge {_var} with {@bot}
+            if group of {velesle::kod::%event-message%} is "mvip":
+                add role with id "{@mviprol}" to roles of event-user in event-guild
+                send "Hesabın Başarıyla Eşleştirildi %nl%Oyundaki Rolün: MVİP%nl%Oyundaki Adın: %{velesle::kod::%event-message%}%" to event-channel with {@bot} and store the message in {_var}
+                set {dogruladi::%{velesle::kod::%event-message%}%} to true
+                send "{@p} &7Hesabınız Başarıyla Eşleştirildi Discord İsminiz: %event-member%" to {velesle::kod::%event-message%}
+                set {velesle::kod::%event-message%} to {dogruladi::%{velesle::kod::%event-message%}%}
+                delete {dogruladi::%{velesle::kod::%event-message%}%}
+                wait 5 seconds
+                purge {_var} with {@bot}
+            if group of {velesle::kod::%event-message%} is "mvip+":
+                add role with id "{@mviprol}" to roles of event-user in event-guild
+                send "Hesabın Başarıyla Eşleştirildi %nl%Oyundaki Rolün: MVIP+%nl%Oyundaki Adın: %{velesle::kod::%event-message%}%" to event-channel with {@bot} and store the message in {_var}
+                set {dogruladi::%{velesle::kod::%event-message%}%} to true
+                send "{@p} &7Hesabınız Başarıyla Eşleştirildi Discord İsminiz: %event-member%" to {velesle::kod::%event-message%}
+                set {velesle::kod::%event-message%} to {dogruladi::%{velesle::kod::%event-message%}%}
+                delete {dogruladi::%{velesle::kod::%event-message%}%}
+                wait 5 seconds
+                purge {_var} with {@bot}
+        else:
+            send "Zaten Doğruladın veya Kod Bulunamadı!" to event-channel with {@bot} and store the message in {_var}
+            wait 5 seconds
+            purge {_var} with {@bot}
+on unload:
+    logout {@bot}
+
+on load:
+    loop all players:
+        delete {dogruladi::%loop-player%}
